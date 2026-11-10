@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: clone-mes
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/mes}
+    username: ${DB_USERNAME:mes}
+    password: ${DB_PASSWORD:mes}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+server:
+  port: ${SERVER_PORT:8080}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
