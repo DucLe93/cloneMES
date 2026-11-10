@@ -13,10 +13,10 @@ public class DashboardController {
   BigDecimal total=all.stream().map(ProductionReport::getQuantity).reduce(BigDecimal.ZERO,BigDecimal::add);
   BigDecimal good=all.stream().map(ProductionReport::getGoodQuantity).reduce(BigDecimal.ZERO,BigDecimal::add);
   BigDecimal defect=all.stream().map(ProductionReport::getDefectQuantity).reduce(BigDecimal.ZERO,BigDecimal::add);
-  BigDecimal yield=total.signum()==0?BigDecimal.ZERO:good.multiply(BigDecimal.valueOf(100)).divide(total,2,RoundingMode.HALF_UP);
+  BigDecimal yieldPercent=total.signum()==0?BigDecimal.ZERO:good.multiply(BigDecimal.valueOf(100)).divide(total,2,RoundingMode.HALF_UP);
   return Map.of("productionOrders",orders.count(),"plannedOrders",orders.countByStatus(ProductionOrder.Status.PLANNED),
    "inProgressOrders",orders.countByStatus(ProductionOrder.Status.IN_PROGRESS),"completedOrders",orders.countByStatus(ProductionOrder.Status.COMPLETED),
-   "reportedQuantity",total,"goodQuantity",good,"defectQuantity",defect,"firstPassYieldPercent",yield,
+   "reportedQuantity",total,"goodQuantity",good,"defectQuantity",defect,"firstPassYieldPercent",yieldPercent,
    "failedInspections",quality.countByResult(QualityInspection.Result.FAIL));
  }
 }
